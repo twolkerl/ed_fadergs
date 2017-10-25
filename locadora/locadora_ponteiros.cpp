@@ -466,6 +466,7 @@ void subMenuOrdenar(ListaFilmes **listaFilmes) {
 	
 }
 
+// Teste alteração
 // Função para ordenar os filmes pelo nome em ordem alfabética
 void ordenarFilmesPorNome(ListaFilmes **listaFilmes, int qtdFilmes) {
 		
