@@ -1,3 +1,12 @@
+/**
+ * ESTRUTURA DE DADOS
+ * Autor: Tiago Wolker Leite
+ * Data: 07/09/2017
+ * Última atualização: 29/10/2017
+ * Biblioteca com as funções para a estrutura de Filmes
+ * encontrada em "filme.h".
+ */
+
 #include <stdio.h>
 #include <string.h>
 #include "filme.h"
@@ -9,7 +18,13 @@ void ordenarFilmesPorNome(ListaFilmes **listaFilmes, int qtdFilmes);
 void ordenarFilmesPorCodigo(ListaFilmes **listaFilmes, int qtdFilmes);
 void selectSort(ListaFilmes **listaFilmes);
 
-// Função para contar e retornar a quantidade de filmes cadastrados
+/*
+	Função para contar e retornar a quantidade de filmes cadastrados.
+	
+	**listaFilmes:	Posição do primeiro nodo da lista de filmes.
+	
+	Retorna: quantidade de filmes cadastrados na lista.
+*/
 int contarFilmes(ListaFilmes **listaFilmes){
 	
 	int contador = 0;
@@ -26,7 +41,11 @@ int contarFilmes(ListaFilmes **listaFilmes){
 	return contador;
 }
 
-// Submenu para escolher o tipo de ordenação
+/*
+	Função que mostra o Submenu para escolher o tipo de ordenação.
+	
+	**listaFilmes:	Posição do primeiro nodo da lista de filmes.
+*/
 void subMenuOrdenar(ListaFilmes **listaFilmes) {
 	
 	int qtdFilmes = contarFilmes(&*listaFilmes);
@@ -78,7 +97,12 @@ void subMenuOrdenar(ListaFilmes **listaFilmes) {
 	
 }
 
-// Função para ordenar os filmes pelo nome em ordem alfabética
+/*
+	Função para ordenar os filmes pelo nome em ordem alfabética.
+	
+	**listaFilmes:	Posição do primeiro nodo da lista de filmes.
+	qtdFilmes:		Quantidade de filmes cadastrados.
+*/
 void ordenarFilmesPorNome(ListaFilmes **listaFilmes, int qtdFilmes) {
 		
 	for (int i = 0; i < qtdFilmes; i++) {
@@ -109,7 +133,12 @@ void ordenarFilmesPorNome(ListaFilmes **listaFilmes, int qtdFilmes) {
 	
 }
 
-// Função para ordenar os filmes pelo código em ordem crescente
+/*
+	Função para ordenar(bubble sort) os filmes pelo código em ordem crescente.
+	
+	**listaFilmes:	Posição do primeiro nodo da lista de filmes.
+	qtdFilmes:		Quantidade de filmes cadastrados.
+*/
 void ordenarFilmesPorCodigo(ListaFilmes **listaFilmes, int qtdFilmes) {
 		
 	for (int i = 0; i < qtdFilmes; i++) {
@@ -134,6 +163,11 @@ void ordenarFilmesPorCodigo(ListaFilmes **listaFilmes, int qtdFilmes) {
 	
 }
 
+/*
+	Função para ordenar(select sort) os filmes pelo código em ordem crescente.
+	
+	**listaFilmes:	Posição do primeiro nodo da lista de filmes.
+*/
 void selectSort(ListaFilmes **listaFilmes) {
 	
 	ListaFilmes *percorre = *listaFilmes; // ponteiro que irá percorrer a lista, recebe a posição do primeiro filme da lista
