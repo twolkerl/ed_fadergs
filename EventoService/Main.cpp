@@ -12,12 +12,14 @@
 
 #include "EventoStructs.h"
 #include "Utilitarios.h"
+#include "FuncoesTeste.h"
 
 // -- CONSTANTES --
 
 
 // -- PROTÓTIPOS --
 void cadastrarEvento(ListaEventos **listaEventos);
+void listar(ListaEventos *listaEventos);
 
 int menuPrincipal();
 bool realizarCadastro(ListaEventos *novoNodo);
@@ -48,6 +50,19 @@ main() {
 				break;
 			case 5:
 				// Informações eventos
+				break;
+			case 100:
+				// TESTE CADASTRAR 10
+				cadDez(&filaReclamacoes, reclamacao);
+				cadDez(&pilhaComentarios, comentario);
+				break;
+			case 101:
+				// TESTE EXIBIR 10 FILA
+				listar(filaReclamacoes);
+				break;
+			case 102:
+				// TESTE EXIBIR 10 PILHA
+				listar(pilhaComentarios);
 				break;
 			case 0:
 				// Sair
@@ -85,6 +100,9 @@ int menuPrincipal() {
 	printf("\n[ 3 ] - Apresentar Eventos");
 	printf("\n[ 4 ] - Consumir Eventos");
 	printf("\n[ 5 ] - Informações Eventos");
+	printf("\n[100] - TESTE - Cadastrar 10 filas e pilhas");
+	printf("\n[101] - TESTE - Exibir a fila");
+	printf("\n[102] - TESTE - Exibir a pilha");
 	printf("\n[ 0 ] - Sair");
 	printf("\n\nInforme a sua opção: ");
 	fflush(stdin);
@@ -173,4 +191,19 @@ bool realizarCadastro(ListaEventos *novoNodo) {
 	}
 	
 	return false;
+}
+
+
+void listar(ListaEventos *listaEventos) {
+	
+	if (listaEventos != NULL) {
+		
+		printf("\n Protocolo: %i", listaEventos->evento.protocolo);
+		printf("\n Tipo de mensagem: %s", tipoMensagemLabel(listaEventos->evento.tipoMensagem));
+		printf("\n Mensagem: %s\n", listaEventos->evento.mensagem);
+		
+		listar(listaEventos->proximo);
+		
+	}
+	
 }
