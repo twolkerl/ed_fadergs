@@ -49,12 +49,16 @@ main() {
 				cadDez(&pilhaComentarios, comentario);
 				break;
 			case 101:
-				// TESTE EXIBIR 10 FILA
+				// TESTE EXIBIR FILA
 				listar(filaReclamacoes);
 				break;
 			case 102:
-				// TESTE EXIBIR 10 PILHA
+				// TESTE EXIBIR PILHA
 				listar(pilhaComentarios);
+				break;
+			case 103:
+				// TESTE EXIBIR ATENDIDOS
+				listar(eventosAtendidos);
 				break;
 			case 0:
 				// Sair

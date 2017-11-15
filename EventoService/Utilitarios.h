@@ -25,16 +25,16 @@ bool confirmar() {
 		confirma = toupper(confirma);
 		
 		if(confirma != 'S' && confirma != 'N') {
-			printf("Opção inválida! Tente novamente...");
+			printf("Opção inválida! Tente novamente...\n");
 		}
 		
 	} while(confirma != 'S' && confirma != 'N');
 	
 	if(confirma == 'S') {
-		printf("Operação realizada com sucesso!");
+		printf("Operação realizada com sucesso!\n");
 		return true;
 	}
-	printf("Operação cancelada!");
+	printf("Operação cancelada!\n");
 	return false;
 	
 }
