@@ -2,7 +2,7 @@
 	ESTRUTURA DE DADOS 2017/2
 	Autores: Tiago Wolker Leite / Eduardo Moraes de Mello Alves / Bruno Vicente Alves
 	Data: 15/11/2017
-	Última atualização: 15/11/2017
+	Última atualização: 19/11/2017
 	Biblioteca que contém as funções de EventoService.
 */
 
@@ -20,6 +20,7 @@ void consumirReclamacao(ListaEventos **filaReclamacoes, ListaEventos **eventosAt
 void consumirComentario(ListaEventos **pilhaComentarios, ListaEventos **eventosAtendidos);
 void receberAtendido(ListaEventos **atendido, ListaEventos **eventosAtendidos);
 void encaminharEventos(ListaEventos **listaEventos, ListaEventos **filaReclamacoes, ListaEventos **pilhaComentarios);
+void apresentarEvento(ListaEventos *filaReclamacoes, ListaEventos *pilhaComentarios);
 
 int menuPrincipal();
 bool realizarCadastro(ListaEventos *novoNodo);
@@ -40,8 +41,8 @@ int menuPrincipal() {
 	printf("\t\t===== [ EventoService ] =====");
 	printf("\n[ 1 ] - Registrar Eventos");
 	printf("\n[ 2 ] - Encaminhar Eventos");
-	printf("\n[ 3 ] - Apresentar Eventos");
-	printf("\n[ 4 ] - Consumir Eventos");
+	printf("\n[ 3 ] - Apresentar Evento");
+	printf("\n[ 4 ] - Consumir Evento");
 	printf("\n[ 5 ] - Informações Eventos");
 	printf("\n[100] - TESTE - Cadastrar 10 filas e pilhas");
 	printf("\n[101] - TESTE - Exibir a fila");
@@ -348,6 +349,59 @@ void encaminharEventos(ListaEventos **listaEventos, ListaEventos **filaReclamaco
 		
 		printf("Não existem eventos registrados no momento. Utilize a opção "
 				"[ 1 ] para registrar um novo evento e então tente novamente...\n");
+	}
+	
+}
+
+/*
+	Função para buscar e apresentar em tela as informações de um evento.
+	
+	*filaReclamacoes	=> Último evento que entrou na fila de reclamações.
+	*pilhaComentarios	=> Último evento que entrou na pilha de comentários.
+*/
+void apresentarEvento(ListaEventos *filaReclamacoes, ListaEventos *pilhaComentarios){
+	
+	int busca;
+	bool achou = false;
+
+	if (filaReclamacoes != NULL || pilhaComentarios != NULL){
+		
+		ListaEventos *aux = filaReclamacoes;
+		
+		printf("Digite o protocolo a ser buscado: ");
+		fflush(stdin);
+		scanf("%i", &busca);
+		
+		while(aux != NULL && !achou){
+			
+			if(aux->evento.protocolo == busca){
+				exibirEvento(aux->evento);
+				achou = true;
+			}
+			aux = aux->proximo;
+		}
+		
+		aux = pilhaComentarios;
+		
+		while(aux != NULL && !achou){
+			
+			if(aux->evento.protocolo == busca){
+				exibirEvento(aux->evento);
+				achou = true;
+			}
+			aux = aux->proximo;
+		}
+		
+		if(!achou) {
+			printf("Protocolo não encontado!");
+		}
+		
+	} else {
+		
+		printf("Não existem reclamações ou comentários registrados no momento. "
+				"Utilize a opção [ 1 ] para registrar um novo evento e em seguida a "
+				"opção [ 2 ] para encaminhar os eventos registrados e então "
+				"tente novamente...\n");
 	}
 	
 }

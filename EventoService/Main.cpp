@@ -2,7 +2,7 @@
 	ESTRUTURA DE DADOS 2017/2
 	Autores: Tiago Wolker Leite / Eduardo Moraes de Mello Alves / Bruno Vicente Alves
 	Data: 05/11/2017
-	Última atualização: 15/11/2017
+	Última atualização: 19/11/2017
 	Sistema EventoService.
 */
 
@@ -36,6 +36,7 @@ main() {
 				break;
 			case 3:
 				// Apresentar eventos
+				apresentarEvento(filaReclamacoes, pilhaComentarios);
 				break;
 			case 4:
 				// Consumir eventos
