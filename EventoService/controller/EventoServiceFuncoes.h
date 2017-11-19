@@ -260,6 +260,8 @@ void consumirReclamacao(ListaEventos **filaReclamacoes, ListaEventos **eventosAt
 			
 			if (confirmar()) {
 				// Caso digite a opção SIM
+				anterior->evento.statusEvento = ATENDIDO;
+				anterior->evento.tempoAguardo = time(NULL) - anterior->evento.segCadastro;
 				receberAtendido(&anterior, &*eventosAtendidos);
 				*filaReclamacoes = NULL;
 				
@@ -295,8 +297,6 @@ void consumirComentario(ListaEventos **pilhaComentarios, ListaEventos **eventosA
 		exibirEvento(consumido->evento);
 		if (confirmar()) {
 			// Caso digite a opção SIM
-			/* TODO (Tiago_Wolker#1#): CORRIGIR => Não está definindo o status e o 
-			                           tempo de aguardo do último evento da lista */
 			consumido->evento.statusEvento = ATENDIDO;
 			consumido->evento.tempoAguardo = time(NULL) - consumido->evento.segCadastro;
 			*pilhaComentarios = (*pilhaComentarios)->proximo;
