@@ -10,8 +10,8 @@
 #include <stdlib.h>
 #include <locale.h>
 
-#include "EventoServiceFuncoes.h"
-#include "FuncoesTeste.h"
+#include "controller/EventoServiceFuncoes.h"
+#include "controller/FuncoesTeste.h"
 
 // -- CONSTANTES --
 
@@ -47,8 +47,8 @@ main() {
 				break;
 			case 100:
 				// TESTE CADASTRAR 10
-				cadDez(&filaReclamacoes, reclamacao);
-				cadDez(&pilhaComentarios, comentario);
+				cadDez(&filaReclamacoes, RECLAMACAO);
+				cadDez(&pilhaComentarios, COMENTARIO);
 				break;
 			case 101:
 				// TESTE EXIBIR FILA

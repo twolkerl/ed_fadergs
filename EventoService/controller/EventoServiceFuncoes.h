@@ -7,7 +7,7 @@
 */
 
 // -- BIBLIOTECAS --
-#include "EventoStructs.h"
+#include "../model/EventoStructs.h"
 #include "Utilitarios.h"
 
 
@@ -108,6 +108,8 @@ bool realizarCadastro(ListaEventos *novoNodo) {
 	
 	Evento novoEvento;
 	novoEvento.protocolo = incrementador;
+	novoEvento.statusEvento = NAO_ATENDIDO;
+	novoEvento.segCadastro = time(NULL);
 	
 	printf("\t\t===== [ Cadastrar Evento ] =====");
 	printf("\n[ 1 ] - Reclamação");
@@ -160,6 +162,10 @@ void listar(ListaEventos *listaEventos) {
 void exibirEvento(Evento evento) {
 	
 	printf("\n Protocolo: %i", evento.protocolo);
+	printf("\n Status: %s", statusEventoLabel(evento.statusEvento));
+	if (evento.statusEvento == ATENDIDO) {
+		printf("\n Tempo de aguardo para atendimento: %i segundos", evento.tempoAguardo);
+	}
 	printf("\n Tipo de mensagem: %s", tipoMensagemLabel(evento.tipoMensagem));
 	printf("\n Mensagem: %s\n", evento.mensagem);
 }
@@ -238,6 +244,8 @@ void consumirReclamacao(ListaEventos **filaReclamacoes, ListaEventos **eventosAt
 			exibirEvento(percorre->evento);
 			if (confirmar()) {
 				// Caso digite a opção SIM
+				percorre->evento.statusEvento = ATENDIDO;
+				percorre->evento.tempoAguardo = time(NULL) - percorre->evento.segCadastro;
 				receberAtendido(&percorre, &*eventosAtendidos);
 				anterior->proximo = NULL;
 				
@@ -287,6 +295,10 @@ void consumirComentario(ListaEventos **pilhaComentarios, ListaEventos **eventosA
 		exibirEvento(consumido->evento);
 		if (confirmar()) {
 			// Caso digite a opção SIM
+			/* TODO (Tiago_Wolker#1#): CORRIGIR => Não está definindo o status e o 
+			                           tempo de aguardo do último evento da lista */
+			consumido->evento.statusEvento = ATENDIDO;
+			consumido->evento.tempoAguardo = time(NULL) - consumido->evento.segCadastro;
 			*pilhaComentarios = (*pilhaComentarios)->proximo;
 			receberAtendido(&consumido, &*eventosAtendidos);
 		} else {
@@ -332,12 +344,12 @@ void encaminharEventos(ListaEventos **listaEventos, ListaEventos **filaReclamaco
 			*listaEventos = (*listaEventos)->proximo;
 			
 			switch (auxiliar->evento.tipoMensagem) {
-				case reclamacao:
+				case RECLAMACAO:
 					auxiliar->proximo = *filaReclamacoes;
 					*filaReclamacoes = auxiliar;
 					break;
 					
-				case comentario:
+				case COMENTARIO:
 				default:
 					auxiliar->proximo = *pilhaComentarios;
 					*pilhaComentarios = auxiliar;

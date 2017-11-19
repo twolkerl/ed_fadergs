@@ -15,6 +15,7 @@ void cadastroAutomatico(ListaEventos *novoNodo, TipoMensagemEnum tipoMensagem){
 	Evento novoEvento;
 	novoEvento.protocolo = incrementador;
 	novoEvento.tipoMensagem = tipoMensagem;
+	novoEvento.statusEvento = NAO_ATENDIDO;
 	
 	strcpy(novoEvento.mensagem, "Mensagem_Automatica_");
 	sprintf(inc, "%d", incrementador);

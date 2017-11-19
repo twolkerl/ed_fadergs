@@ -2,7 +2,7 @@
 	ESTRUTURA DE DADOS 2017/2
 	Autores: Tiago Wolker Leite / Eduardo Moraes de Mello Alves / Bruno Vicente Alves
 	Data: 11/11/2017
-	Última atualização: 15/11/2017
+	Última atualização: 19/11/2017
 	Biblioteca para funções utilitárias.
  */
 
@@ -10,6 +10,7 @@
  #include <ctype.h>
  #include <stdio.h>
  #include <stdbool.h>
+ #include <time.h>
 
 // Função de confirmação
 bool confirmar() {
