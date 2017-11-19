@@ -19,6 +19,7 @@ void menuConsumirEventos(ListaEventos **filaReclamacoes, ListaEventos **pilhaCom
 void consumirReclamacao(ListaEventos **filaReclamacoes, ListaEventos **eventosAtendidos);
 void consumirComentario(ListaEventos **pilhaComentarios, ListaEventos **eventosAtendidos);
 void receberAtendido(ListaEventos **atendido, ListaEventos **eventosAtendidos);
+void encaminharEventos(ListaEventos **listaEventos, ListaEventos **filaReclamacoes, ListaEventos **pilhaComentarios);
 
 int menuPrincipal();
 bool realizarCadastro(ListaEventos *novoNodo);
@@ -60,7 +61,7 @@ int menuPrincipal() {
 /*
 	Função para cadastrar um novo evento na lista de eventos.
 	
-	**listaEventos	=> Primeiro novo da lista de eventos.
+	**listaEventos	=> Primeiro nodo da lista de eventos.
 */
 void cadastrarEvento(ListaEventos **listaEventos) {
 	
@@ -312,4 +313,41 @@ void receberAtendido(ListaEventos **atendido, ListaEventos **eventosAtendidos) {
 	
 	(*atendido)->proximo = *eventosAtendidos;
 	(*eventosAtendidos) = *atendido;
+}
+
+/*
+	Função que encaminha os eventos para sua fila ou pilha com base no tipo de mensagem que foi informada.
+	
+	**listaEventos		=> Último evento que entrou na lista de eventos principal.
+	**filaReclamacoes	=> Último evento que entrou na fila de reclamações.
+	**pilhaComentarios	=> Último evento que entrou na pilha de comentários.
+*/
+void encaminharEventos(ListaEventos **listaEventos, ListaEventos **filaReclamacoes, ListaEventos **pilhaComentarios) {
+	
+	if (*listaEventos != NULL) {
+
+		while (*listaEventos != NULL) {
+			ListaEventos *auxiliar = *listaEventos;
+			*listaEventos = (*listaEventos)->proximo;
+			
+			switch (auxiliar->evento.tipoMensagem) {
+				case reclamacao:
+					auxiliar->proximo = *filaReclamacoes;
+					*filaReclamacoes = auxiliar;
+					break;
+					
+				case comentario:
+				default:
+					auxiliar->proximo = *pilhaComentarios;
+					*pilhaComentarios = auxiliar;
+			}
+		}
+		
+		printf("Eventos encaminhados com sucesso!\n");
+	} else {
+		
+		printf("Não existem eventos registrados no momento. Utilize a opção "
+				"[ 1 ] para registrar um novo evento e então tente novamente...\n");
+	}
+	
 }

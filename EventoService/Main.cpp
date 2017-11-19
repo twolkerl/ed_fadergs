@@ -32,6 +32,7 @@ main() {
 				break;
 			case 2:
 				// Encaminhar eventos
+				encaminharEventos(&listaEventos, &filaReclamacoes, &pilhaComentarios);
 				break;
 			case 3:
 				// Apresentar eventos
