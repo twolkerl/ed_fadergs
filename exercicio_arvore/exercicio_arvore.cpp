@@ -115,11 +115,13 @@ int main( void )
  ************************************************/
 void entrada_dados( ARVORE* aux )
 { 
-/*    printf( "\n\n Matricula: %d", aux->info.matr ); 
-    printf( "\n Digite o nome: " );
-    fflush( stdin );     // limpa buffer do teclado, funciona junto com entrada de dados
-    gets( aux->info.nome );
-*/  
+//    printf( "\n\n Matricula: %d", aux->info.matr ); 
+//    printf( "\n Digite o codigo: " );
+//    fflush( stdin );     // limpa buffer do teclado, funciona junto com entrada de dados
+//    gets( aux->info.nome );
+
+	
+  
     aux->subd = NULL;    // não aponta
     aux->sube = NULL;    // não aponta
 
@@ -177,17 +179,6 @@ INFORMACAO entradaDados(ARVORE *novoNodoArvore) {
 
 
 
-void realizarIncercao(ARVORE **percorre, ARVORE *novoNodoArvore) {
-	
-	
-	
-	if (*percorre->info.codigo > novoNodoArvore->info.codigo) {
-		
-		
-		
-	}
-	
-}
 
 
 
@@ -199,18 +190,45 @@ void realizarIncercao(ARVORE **percorre, ARVORE *novoNodoArvore) {
  *************************************************/ 
 void insere( ARVORE** arv )
 {
+	int cod, achou;
+	
+	printf("\nDigite o codigo: ");
+	scanf("%i", &cod);
+	
+	
 	
 	ARVORE *novoNodoArvore = (ARVORE*) malloc (sizeof (ARVORE));
 	
 	if (novoNodoArvore != NULL) {
 		
-		if (*arv == NULL) {
+		ARVORE *p = *arv;
+		ARVORE *anterior;
+		
+		achou = busca(cod, &anterior, &p);
+		
+		if ( !achou ) {
 			
-			*arv = novoNodoArvore;
+			novoNodoArvore->info.codigo = cod;	
+			entrada_dados(novoNodoArvore);
 			
+			if (*arv == NULL) {
+				
+				*arv = novoNodoArvore;
+				
+			} else {
+				
+				if ( novoNodoArvore->info.codigo > anterior->info.codigo ) {
+					
+					anterior->subd = novoNodoArvore;
+					
+				} else {
+					anterior->sube = novoNodoArvore;
+				}
+				
+			}
 		} else {
 			
-			ARVORE *percorre = *arv;
+			printf("\nRegistro duplicado!");
 			
 		}
 	
@@ -230,7 +248,31 @@ void insere( ARVORE** arv )
  ************************************************/ 
 int busca( int cod, ARVORE** a, ARVORE** p )
 {
- 
+
+	int achou = FALSE;
+	
+	*a = NULL;
+	
+	while ((*p != NULL) && (!achou)) {
+		
+		if ((*p)->info.codigo == cod) {
+			achou = TRUE;
+		} else {
+			*a = *p;
+			
+			if ((*p)->info.codigo > cod) {
+				*p = (*p)->sube;
+			} else {
+				*p = (*p)->subd;
+			}
+			
+		}
+		
+	}
+	
+	return achou;
+	
+
 }
 
 
