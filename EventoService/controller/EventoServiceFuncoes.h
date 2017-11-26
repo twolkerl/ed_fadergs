@@ -316,7 +316,7 @@ void encaminhar_eventos(ListaEventos **listaEventos, ListaEventos **filaReclamac
 			*listaEventos = (*listaEventos)->proximo;
 			
 			switch (auxiliar->evento.tipoMensagem) {
-				case 1:
+				case RECLAMACAO:
 					// Insere no fim da fila de reclamações
 					
 					if (*filaReclamacoes == NULL) {
@@ -335,7 +335,7 @@ void encaminhar_eventos(ListaEventos **listaEventos, ListaEventos **filaReclamac
 					
 					break;
 					
-				case 2:
+				case COMENTARIO:
 				default:
 					// Insere no topo da pilha de comentários
 					auxiliar->proximo = *pilhaComentarios;

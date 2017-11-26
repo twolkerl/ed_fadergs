@@ -37,7 +37,7 @@ void cadastrar_dez(ListaEventos **listaEventos, TipoMensagemEnum tipoMensagem) {
 		cadastro_automatico(novoNodo, tipoMensagem);
 			
 		switch (tipoMensagem) {
-			case 1:
+			case RECLAMACAO:
 				// Cadastra na fila
 				if (*listaEventos == NULL) {
 					
@@ -54,7 +54,7 @@ void cadastrar_dez(ListaEventos **listaEventos, TipoMensagemEnum tipoMensagem) {
 				
 				break;
 				
-			case 2:
+			case COMENTARIO:
 			default:
 				// Cadastra na pilha
 				novoNodo->proximo = *listaEventos;
