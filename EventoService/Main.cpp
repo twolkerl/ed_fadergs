@@ -2,7 +2,7 @@
 	ESTRUTURA DE DADOS 2017/2
 	Autores: Tiago Wolker Leite / Eduardo Moraes de Mello Alves / Bruno Vicente Alves
 	Data: 05/11/2017
-	Última atualização: 19/11/2017
+	Última atualização: 26/11/2017
 	Sistema EventoService.
 */
 
@@ -25,30 +25,31 @@ main() {
 	
 	do {
 		
-		switch (opcao = menuPrincipal()) {
+		switch (opcao = menu_principal()) {
 			case 1:
 				// Cadastrar evento
-				cadastrarEvento(&listaEventos);
+				cadastrar_evento(&listaEventos);
 				break;
 			case 2:
 				// Encaminhar eventos
-				encaminharEventos(&listaEventos, &filaReclamacoes, &pilhaComentarios);
+				encaminhar_eventos(&listaEventos, &filaReclamacoes, &pilhaComentarios);
 				break;
 			case 3:
 				// Apresentar eventos
-				apresentarEvento(filaReclamacoes, pilhaComentarios);
+				apresentar_evento(listaEventos, filaReclamacoes, pilhaComentarios, eventosAtendidos);
 				break;
 			case 4:
 				// Consumir eventos
-				menuConsumirEventos(&filaReclamacoes, &pilhaComentarios, &eventosAtendidos);
+				menu_consumir_eventos(&filaReclamacoes, &pilhaComentarios, &eventosAtendidos);
 				break;
 			case 5:
 				// Informações eventos
 				break;
 			case 100:
-				// TESTE CADASTRAR 10
-				cadDez(&filaReclamacoes, RECLAMACAO);
-				cadDez(&pilhaComentarios, COMENTARIO);
+				// TESTE EXIBIR FILA
+				cad_dez(&listaEventos, RECLAMACAO);
+				cad_dez(&filaReclamacoes, RECLAMACAO);
+				cad_dez(&pilhaComentarios, COMENTARIO);
 				break;
 			case 101:
 				// TESTE EXIBIR FILA

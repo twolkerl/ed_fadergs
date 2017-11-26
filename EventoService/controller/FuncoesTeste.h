@@ -3,12 +3,12 @@
 */
 #include <string.h>
 
-void cadastroAutomatico(ListaEventos *novoNodo, TipoMensagemEnum tipoMensagem);
-void cadastrarDez(ListaEventos **listaEventos, TipoMensagemEnum tipoMensagem);
-void cadDez(ListaEventos **listaEventos, TipoMensagemEnum tipoMensagem); // USAR ESTE PARA CADASTRAR 10 REGISTROS, PASSAR POR PARÂMETRO A LISTA/FILA/PILHA DESEJADA E O TIPO DE MENSAGEM
+void cadastro_automatico(ListaEventos *novoNodo, TipoMensagemEnum tipoMensagem); // Função interna da biblioteca, não utilizar!
+void cadastrar_dez(ListaEventos **listaEventos, TipoMensagemEnum tipoMensagem); // Função interna da biblioteca, não utilizar!
+void cad_dez(ListaEventos **listaEventos, TipoMensagemEnum tipoMensagem); // USAR ESTE PARA CADASTRAR 10 REGISTROS, PASSAR POR PARÂMETRO A LISTA/FILA/PILHA DESEJADA E O TIPO DE MENSAGEM
 
 
-void cadastroAutomatico(ListaEventos *novoNodo, TipoMensagemEnum tipoMensagem){
+void cadastro_automatico(ListaEventos *novoNodo, TipoMensagemEnum tipoMensagem){
 	
 	static int incrementador = 100;
 	char inc[10];
@@ -16,6 +16,7 @@ void cadastroAutomatico(ListaEventos *novoNodo, TipoMensagemEnum tipoMensagem){
 	novoEvento.protocolo = incrementador;
 	novoEvento.tipoMensagem = tipoMensagem;
 	novoEvento.statusEvento = NAO_ATENDIDO;
+	novoEvento.segCadastro = time(NULL);
 	
 	strcpy(novoEvento.mensagem, "Mensagem_Automatica_");
 	sprintf(inc, "%d", incrementador);
@@ -27,26 +28,37 @@ void cadastroAutomatico(ListaEventos *novoNodo, TipoMensagemEnum tipoMensagem){
 }
 
 
-void cadastrarDez(ListaEventos **listaEventos, TipoMensagemEnum tipoMensagem) {
+void cadastrar_dez(ListaEventos **listaEventos, TipoMensagemEnum tipoMensagem) {
 	
 	ListaEventos *novoNodo = (ListaEventos*) malloc (sizeof (ListaEventos));
 	
 	if (novoNodo != NULL) {
 		
-		cadastroAutomatico(novoNodo, tipoMensagem);
-		
-		if (*listaEventos == NULL) {
+		cadastro_automatico(novoNodo, tipoMensagem);
 			
-			*listaEventos = novoNodo;
-		} else {
-			
-			ListaEventos *auxiliar = *listaEventos;
-			
-			while (auxiliar->proximo != NULL) {
-				auxiliar = auxiliar->proximo;
-			}
-			
-			auxiliar->proximo = novoNodo;
+		switch (tipoMensagem) {
+			case 1:
+				// Cadastra na fila
+				if (*listaEventos == NULL) {
+					
+					*listaEventos = novoNodo;
+				} else {
+					ListaEventos *percorreFila = *listaEventos;
+					
+					while (percorreFila->proximo != NULL) {
+						percorreFila = percorreFila->proximo;
+					}
+					
+					percorreFila->proximo = novoNodo;
+				}
+				
+				break;
+				
+			case 2:
+			default:
+				// Cadastra na pilha
+				novoNodo->proximo = *listaEventos;
+				*listaEventos = novoNodo;
 		}
 		
 	} else {
@@ -55,10 +67,10 @@ void cadastrarDez(ListaEventos **listaEventos, TipoMensagemEnum tipoMensagem) {
 	
 }
 
-void cadDez(ListaEventos **listaEventos, TipoMensagemEnum tipoMensagem) {
+void cad_dez(ListaEventos **listaEventos, TipoMensagemEnum tipoMensagem) {
 	
 	for (int i = 0; i < 10; i++) {
-		cadastrarDez(&*listaEventos, tipoMensagem);
+		cadastrar_dez(&*listaEventos, tipoMensagem);
 	}
 	
 }

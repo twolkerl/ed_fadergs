@@ -2,7 +2,7 @@
 	ESTRUTURA DE DADOS 2017/2
 	Autores: Tiago Wolker Leite / Eduardo Moraes de Mello Alves / Bruno Vicente Alves
 	Data: 15/11/2017
-	Última atualização: 19/11/2017
+	Última atualização: 26/11/2017
 	Biblioteca que contém as funções de EventoService.
 */
 
@@ -12,18 +12,19 @@
 
 
 // -- PROTÓTIPOS --
-void cadastrarEvento(ListaEventos **listaEventos);
+void cadastrar_evento(ListaEventos **listaEventos);
 void listar(ListaEventos *listaEventos);
-void exibirEvento(Evento evento);
-void menuConsumirEventos(ListaEventos **filaReclamacoes, ListaEventos **pilhaComentarios, ListaEventos **eventosAtendidos);
-void consumirReclamacao(ListaEventos **filaReclamacoes, ListaEventos **eventosAtendidos);
-void consumirComentario(ListaEventos **pilhaComentarios, ListaEventos **eventosAtendidos);
-void receberAtendido(ListaEventos **atendido, ListaEventos **eventosAtendidos);
-void encaminharEventos(ListaEventos **listaEventos, ListaEventos **filaReclamacoes, ListaEventos **pilhaComentarios);
-void apresentarEvento(ListaEventos *filaReclamacoes, ListaEventos *pilhaComentarios);
+void exibir_evento(Evento evento);
+void menu_consumir_eventos(ListaEventos **filaReclamacoes, ListaEventos **pilhaComentarios, ListaEventos **eventosAtendidos);
+void consumir_reclamacao(ListaEventos **filaReclamacoes, ListaEventos **eventosAtendidos);
+void consumir_comentario(ListaEventos **pilhaComentarios, ListaEventos **eventosAtendidos);
+void receber_atendido(ListaEventos **atendido, ListaEventos **eventosAtendidos);
+void encaminhar_eventos(ListaEventos **listaEventos, ListaEventos **filaReclamacoes, ListaEventos **pilhaComentarios);
+void apresentar_evento(ListaEventos *listaEventos, ListaEventos *filaReclamacoes, ListaEventos *pilhaComentarios, ListaEventos *eventosAtendidos);
 
-int menuPrincipal();
-bool realizarCadastro(ListaEventos *novoNodo);
+int menu_principal();
+bool realizar_cadastro(ListaEventos *novoNodo);
+bool buscar_evento_protocolo(int protocolo, ListaEventos *listaEventos, bool achou);
 
 // -- FUNÇÕES --
 
@@ -32,10 +33,7 @@ bool realizarCadastro(ListaEventos *novoNodo);
 	
 	return	=> Número da opção digitada pelo usuário.
 */
-int menuPrincipal() {
-	/* TODO (Tiago_Wolker#1#): Verificar a possibilidade de usar a biblioteca 
-                           stdarg.h e mover esta função para a biblioteca 
-                           Utilitarios.h */
+int menu_principal() {
     int opcao;
                            
 	printf("\t\t===== [ EventoService ] =====");
@@ -44,7 +42,7 @@ int menuPrincipal() {
 	printf("\n[ 3 ] - Apresentar Evento");
 	printf("\n[ 4 ] - Consumir Evento");
 	printf("\n[ 5 ] - Informações Eventos");
-	printf("\n[100] - TESTE - Cadastrar 10 filas e pilhas");
+	printf("\n[100] - TESTE - Cadastrar 10 em cada estrutura");
 	printf("\n[101] - TESTE - Exibir a fila");
 	printf("\n[102] - TESTE - Exibir a pilha");
 	printf("\n[103] - TESTE - Exibir atendidos");
@@ -64,13 +62,13 @@ int menuPrincipal() {
 	
 	**listaEventos	=> Primeiro nodo da lista de eventos.
 */
-void cadastrarEvento(ListaEventos **listaEventos) {
+void cadastrar_evento(ListaEventos **listaEventos) {
 	
 	ListaEventos *novoNodo = (ListaEventos*) malloc (sizeof (ListaEventos));
 	
 	if (novoNodo != NULL) {
 		
-		if (realizarCadastro(novoNodo)) {
+		if (realizar_cadastro(novoNodo)) {
 			
 			if (*listaEventos == NULL) {
 				
@@ -101,7 +99,7 @@ void cadastrarEvento(ListaEventos **listaEventos) {
 	
 	return	=> Verdadeiro caso o usuário confirme o registro, caso contrário Falso.
 */
-bool realizarCadastro(ListaEventos *novoNodo) {
+bool realizar_cadastro(ListaEventos *novoNodo) {
 	
 	// Variável estática para definir o número do protocolo
 	static int incrementador = 1;
@@ -149,7 +147,7 @@ void listar(ListaEventos *listaEventos) {
 	
 	if (listaEventos != NULL) {
 		
-		exibirEvento(listaEventos->evento);
+		exibir_evento(listaEventos->evento);
 		listar(listaEventos->proximo);
 	}
 }
@@ -159,7 +157,7 @@ void listar(ListaEventos *listaEventos) {
 	
 	evento	=> Evento a ser exibido em tela.
 */
-void exibirEvento(Evento evento) {
+void exibir_evento(Evento evento) {
 	
 	printf("\n Protocolo: %i", evento.protocolo);
 	printf("\n Status: %s", statusEventoLabel(evento.statusEvento));
@@ -173,16 +171,16 @@ void exibirEvento(Evento evento) {
 /*
 	Submenu que contém as opções do tipo de evento a ser consumido.
 	
-	**filaReclamacoes	=> Último evento que entrou na fila de reclamações.
+	**filaReclamacoes	=> Primeiro evento que entrou na fila de reclamações.
 	**pilhaComentarios	=> Último evento que entrou na pilha de comentários.
 	**eventosAtendidos	=> Último evento que foi atendido.
 */
-void menuConsumirEventos(ListaEventos **filaReclamacoes, ListaEventos **pilhaComentarios, ListaEventos **eventosAtendidos) {
+void menu_consumir_eventos(ListaEventos **filaReclamacoes, ListaEventos **pilhaComentarios, ListaEventos **eventosAtendidos) {
 	
 	if (*filaReclamacoes != NULL || *pilhaComentarios != NULL) {
 		
 	    int opcao;
-	                           
+	    
 		printf("\t\t===== [ Consumir Eventos ] =====");
 		printf("\n[ 1 ] - Reclamações");
 		printf("\n[ 2 ] - Comentários");
@@ -194,11 +192,11 @@ void menuConsumirEventos(ListaEventos **filaReclamacoes, ListaEventos **pilhaCom
 			
 			case 1:
 				// Consumir reclamação da fila
-				consumirReclamacao(&*filaReclamacoes, &*eventosAtendidos);
+				consumir_reclamacao(&*filaReclamacoes, &*eventosAtendidos);
 				break;
 			case 2:
 				// Consumir comentário da pilha
-				consumirComentario(&*pilhaComentarios, &*eventosAtendidos);
+				consumir_comentario(&*pilhaComentarios, &*eventosAtendidos);
 				break;
 			case 0:
 				printf("Retornando ao menu principal...");
@@ -221,54 +219,28 @@ void menuConsumirEventos(ListaEventos **filaReclamacoes, ListaEventos **pilhaCom
 /*
 	Função para atender a primeira reclamação da fila.
 	
-	**filaReclamacoes	=> Último evento que entrou na fila de reclamações.
+	**filaReclamacoes	=> Primeiro evento que entrou na fila de reclamações.
 	**eventosAtendidos	=> Último evento que foi atendido.
 */
-void consumirReclamacao(ListaEventos **filaReclamacoes, ListaEventos **eventosAtendidos) {
+void consumir_reclamacao(ListaEventos **filaReclamacoes, ListaEventos **eventosAtendidos) {
 	
 	if (*filaReclamacoes != NULL) {
-		/* TODO (Tiago_Wolker#2#): Verificar a possibilidade de tornar esta função 
-		                           recursiva. */
 		
-		ListaEventos *anterior = *filaReclamacoes, *percorre = anterior->proximo;
-		
-		if (percorre != NULL) {
+		printf("\t\t==== Deseja consumir este evento? ====\n");
+		exibir_evento((*filaReclamacoes)->evento);
+		if (confirmar()) {
+			// Caso digite a opção SIM
+			(*filaReclamacoes)->evento.statusEvento = ATENDIDO;
+			(*filaReclamacoes)->evento.tempoAguardo = time(NULL) - (*filaReclamacoes)->evento.segCadastro;
 			
-			while (percorre->proximo != NULL) {
-				
-				anterior = percorre;
-				percorre = percorre->proximo;
-			}
+			ListaEventos *reclamacaoAtendida = *filaReclamacoes;
+			*filaReclamacoes = (*filaReclamacoes)->proximo;
 			
-			printf("\t\t==== Deseja consumir este evento? ====\n");
-			exibirEvento(percorre->evento);
-			if (confirmar()) {
-				// Caso digite a opção SIM
-				percorre->evento.statusEvento = ATENDIDO;
-				percorre->evento.tempoAguardo = time(NULL) - percorre->evento.segCadastro;
-				receberAtendido(&percorre, &*eventosAtendidos);
-				anterior->proximo = NULL;
-				
-			} else {
-				// Caso digite a opção NÃO
-				return;
-			}
+			receber_atendido(&reclamacaoAtendida, &*eventosAtendidos);
+			
 		} else {
-			// Caso a fila contenha apenas 1 registro:
-			printf("\t\t==== Deseja consumir este evento? ====\n");
-			exibirEvento(anterior->evento);
-			
-			if (confirmar()) {
-				// Caso digite a opção SIM
-				anterior->evento.statusEvento = ATENDIDO;
-				anterior->evento.tempoAguardo = time(NULL) - anterior->evento.segCadastro;
-				receberAtendido(&anterior, &*eventosAtendidos);
-				*filaReclamacoes = NULL;
-				
-			} else {
-				// Caso digite a opção NÃO
-				return;
-			}
+			// Caso digite a opção NÃO
+			return;
 		}
 		
 	} else {
@@ -287,20 +259,20 @@ void consumirReclamacao(ListaEventos **filaReclamacoes, ListaEventos **eventosAt
 	**pilhaComentarios	=> Último evento que entrou na pilha de comentários.
 	**eventosAtendidos	=> Último evento que foi atendido.
 */
-void consumirComentario(ListaEventos **pilhaComentarios, ListaEventos **eventosAtendidos) {
+void consumir_comentario(ListaEventos **pilhaComentarios, ListaEventos **eventosAtendidos) {
 	
 	if (*pilhaComentarios != NULL) {
 		
 		ListaEventos *consumido = *pilhaComentarios;
 		
 		printf("\t\t==== Deseja consumir este evento? ====\n");
-		exibirEvento(consumido->evento);
+		exibir_evento(consumido->evento);
 		if (confirmar()) {
 			// Caso digite a opção SIM
 			consumido->evento.statusEvento = ATENDIDO;
 			consumido->evento.tempoAguardo = time(NULL) - consumido->evento.segCadastro;
 			*pilhaComentarios = (*pilhaComentarios)->proximo;
-			receberAtendido(&consumido, &*eventosAtendidos);
+			receber_atendido(&consumido, &*eventosAtendidos);
 		} else {
 			// Caso digite a opção NÃO
 			return;
@@ -322,7 +294,7 @@ void consumirComentario(ListaEventos **pilhaComentarios, ListaEventos **eventosA
 	**atendido			=> Evento a entrar na lista.
 	**eventosAtendidos	=> Último evento que foi atendido.
 */
-void receberAtendido(ListaEventos **atendido, ListaEventos **eventosAtendidos) {
+void receber_atendido(ListaEventos **atendido, ListaEventos **eventosAtendidos) {
 	
 	(*atendido)->proximo = *eventosAtendidos;
 	(*eventosAtendidos) = *atendido;
@@ -332,10 +304,10 @@ void receberAtendido(ListaEventos **atendido, ListaEventos **eventosAtendidos) {
 	Função que encaminha os eventos para sua fila ou pilha com base no tipo de mensagem que foi informada.
 	
 	**listaEventos		=> Último evento que entrou na lista de eventos principal.
-	**filaReclamacoes	=> Último evento que entrou na fila de reclamações.
+	**filaReclamacoes	=> Primeiro evento que entrou na fila de reclamações.
 	**pilhaComentarios	=> Último evento que entrou na pilha de comentários.
 */
-void encaminharEventos(ListaEventos **listaEventos, ListaEventos **filaReclamacoes, ListaEventos **pilhaComentarios) {
+void encaminhar_eventos(ListaEventos **listaEventos, ListaEventos **filaReclamacoes, ListaEventos **pilhaComentarios) {
 	
 	if (*listaEventos != NULL) {
 
@@ -344,13 +316,28 @@ void encaminharEventos(ListaEventos **listaEventos, ListaEventos **filaReclamaco
 			*listaEventos = (*listaEventos)->proximo;
 			
 			switch (auxiliar->evento.tipoMensagem) {
-				case RECLAMACAO:
-					auxiliar->proximo = *filaReclamacoes;
-					*filaReclamacoes = auxiliar;
+				case 1:
+					// Insere no fim da fila de reclamações
+					
+					if (*filaReclamacoes == NULL) {
+						auxiliar->proximo = NULL;
+						*filaReclamacoes = auxiliar;
+					} else {
+						
+						ListaEventos *percorreFila = *filaReclamacoes;
+						
+						while (percorreFila->proximo != NULL) {
+							percorreFila = percorreFila->proximo;
+						}
+						auxiliar->proximo = NULL;
+						percorreFila->proximo = auxiliar;
+					}
+					
 					break;
 					
-				case COMENTARIO:
+				case 2:
 				default:
+					// Insere no topo da pilha de comentários
 					auxiliar->proximo = *pilhaComentarios;
 					*pilhaComentarios = auxiliar;
 			}
@@ -368,44 +355,30 @@ void encaminharEventos(ListaEventos **listaEventos, ListaEventos **filaReclamaco
 /*
 	Função para buscar e apresentar em tela as informações de um evento.
 	
-	*filaReclamacoes	=> Último evento que entrou na fila de reclamações.
+	*listaEventos		=> Primeiro evento da lista de eventos não encaminhados.
+	*filaReclamacoes	=> Primeiro evento que entrou na fila de reclamações.
 	*pilhaComentarios	=> Último evento que entrou na pilha de comentários.
+	*eventosAtendidos	=> Primeiro evento da lista de eventos atendidos.
 */
-void apresentarEvento(ListaEventos *filaReclamacoes, ListaEventos *pilhaComentarios){
+void apresentar_evento(ListaEventos *listaEventos, ListaEventos *filaReclamacoes, ListaEventos *pilhaComentarios, ListaEventos *eventosAtendidos){
 	
-	int busca;
-	bool achou = false;
-
-	if (filaReclamacoes != NULL || pilhaComentarios != NULL){
+	if (listaEventos != NULL || filaReclamacoes != NULL || pilhaComentarios != NULL || eventosAtendidos != NULL){
 		
+		bool achou = false;
+		int busca;
 		ListaEventos *aux = filaReclamacoes;
 		
 		printf("Digite o protocolo a ser buscado: ");
 		fflush(stdin);
 		scanf("%i", &busca);
 		
-		while(aux != NULL && !achou){
-			
-			if(aux->evento.protocolo == busca){
-				exibirEvento(aux->evento);
-				achou = true;
-			}
-			aux = aux->proximo;
-		}
-		
-		aux = pilhaComentarios;
-		
-		while(aux != NULL && !achou){
-			
-			if(aux->evento.protocolo == busca){
-				exibirEvento(aux->evento);
-				achou = true;
-			}
-			aux = aux->proximo;
-		}
+		achou = buscar_evento_protocolo(busca, listaEventos, achou);
+		if (!achou) achou = buscar_evento_protocolo(busca, filaReclamacoes, achou);
+		if (!achou) achou = buscar_evento_protocolo(busca, pilhaComentarios, achou);
+		if (!achou) achou = buscar_evento_protocolo(busca, eventosAtendidos, achou);
 		
 		if(!achou) {
-			printf("Protocolo não encontado!");
+			printf("Protocolo não encontado!\n");
 		}
 		
 	} else {
@@ -416,4 +389,29 @@ void apresentarEvento(ListaEventos *filaReclamacoes, ListaEventos *pilhaComentar
 				"tente novamente...\n");
 	}
 	
+}
+
+/*
+	Busca um evento pelo protocolo informado na lista de eventos passada por parâmetro.
+	
+	protocolo		=> Número do protocolo a ser buscado.
+	*listaEventos	=> Primeiro evento da lista de eventos informada.
+	achou			=> Booleana que representa se o protocolo foi encontrado.
+	
+	return	=> Verdadeiro caso tenha sido encontrado, caso contrário retorna falso.
+*/
+bool buscar_evento_protocolo(int protocolo, ListaEventos *listaEventos, bool achou) {
+	
+	ListaEventos *aux = listaEventos;
+	
+	while(aux != NULL && !achou){
+		
+		if(aux->evento.protocolo == protocolo){
+			exibir_evento(aux->evento);
+			return true;
+		}
+		aux = aux->proximo;
+	}
+	
+	return false;
 }
