@@ -2,15 +2,17 @@
 	ESTRUTURA DE DADOS 2017/2
 	Autores: Tiago Wolker Leite / Eduardo Moraes de Mello Alves / Bruno Vicente Alves
 	Data: 11/11/2017
-	Última atualização: 19/11/2017
-	Biblioteca para funções utilitárias.
+	Última atualização: 03/12/2017
+	Biblioteca para funções utilitárias e includes.
  */
 
 // -- BIBLIOTECAS --
- #include <ctype.h>
- #include <stdio.h>
- #include <stdbool.h>
- #include <time.h>
+#include <stdlib.h>
+#include <locale.h>
+#include <ctype.h>
+#include <stdio.h>
+#include <stdbool.h>
+#include <time.h>
 
 // Função de confirmação
 bool confirmar() {
