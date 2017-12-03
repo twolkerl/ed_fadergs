@@ -2,16 +2,14 @@
 	ESTRUTURA DE DADOS 2017/2
 	Autores: Tiago Wolker Leite / Eduardo Moraes de Mello Alves / Bruno Vicente Alves
 	Data: 05/11/2017
-	Última atualização: 26/11/2017
+	Última atualização: 03/12/2017
 	Sistema EventoService.
 */
 
 // -- BIBLIOTECAS --
-#include <stdlib.h>
-#include <locale.h>
 
 #include "controller/EventoServiceFuncoes.h"
-#include "controller/FuncoesTeste.h"
+//#include "controller/FuncoesTeste.h" // retirar as barras para utilizar as funções de teste
 
 // -- CONSTANTES --
 
@@ -44,25 +42,13 @@ main() {
 				break;
 			case 5:
 				// Informações eventos
+				menu_info_eventos(listaEventos, filaReclamacoes, pilhaComentarios, eventosAtendidos);
 				break;
-			case 100:
-				// TESTE EXIBIR FILA
-				cad_dez(&listaEventos, RECLAMACAO);
-				cad_dez(&filaReclamacoes, RECLAMACAO);
-				cad_dez(&pilhaComentarios, COMENTARIO);
-				break;
-			case 101:
-				// TESTE EXIBIR FILA
-				listar(filaReclamacoes);
-				break;
-			case 102:
-				// TESTE EXIBIR PILHA
-				listar(pilhaComentarios);
-				break;
-			case 103:
-				// TESTE EXIBIR ATENDIDOS
-				listar(eventosAtendidos);
-				break;
+//			case 100: // Função para testar
+//				cad_dez(&listaEventos, RECLAMACAO);
+//				cad_dez(&filaReclamacoes, RECLAMACAO);
+//				cad_dez(&pilhaComentarios, COMENTARIO);
+//				break;
 			case 0:
 				// Sair
 				printf("Sistema encerrado...\n");
@@ -72,6 +58,7 @@ main() {
 				printf("Opção inválida...\n");
 		}
 		
+		printf("\n");
 		system("pause");
 		system("cls");
 		
